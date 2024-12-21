@@ -1,0 +1,2 @@
+# class Urna(*args):
+#     pass

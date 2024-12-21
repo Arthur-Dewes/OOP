@@ -1,0 +1,2 @@
+# class Eleicao(Eleitores):
+#     pass

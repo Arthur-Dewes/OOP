@@ -3,3 +3,29 @@ class Partido:
         self.nome = nome
         self.numero = numero
         self.__cnpj = cnpj
+
+
+    def get_nome(self):
+        return self.nome
+    
+    def set_nome(self, nome):
+        self.nome = nome
+
+    def get_numero(self):
+        return self.numero
+    
+    def set_numero(self, numero):
+        self.numero = numero
+
+    @property
+    def cnpj(self):
+        return self.__cnpj
+    
+    @cnpj.setter
+    def cnpj(self, cnpj):
+        self.__cnpj = cnpj
+    
+    @cnpj.deleter
+    def cnpj(self):
+        del self.__cnpj
+    

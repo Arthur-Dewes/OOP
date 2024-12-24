@@ -1,5 +1,5 @@
 from faker import Faker
-from faker.providers import BaseProvider, DynamicProvider
+from faker.providers import DynamicProvider
 import pandas as pd
 import random
 import numpy as np
@@ -23,11 +23,11 @@ pessoas = {'Nome': np.array([f.name() for _ in range(500)]),
         'Idade': np.array([f.random_int(min=18, max=70) for _ in range(500)]),
         'Cpf': np.array([f.cpf() for _ in range(500)])}
 
-depFe = [f.unique.random_int(min=1000, max=9999) for _ in range(70)]
-depEs = [f.unique.random_int(min=10000, max=99999) for _ in range(94)]
-sena = [f.unique.random_int(min=100, max=999) for _ in range(20)]
-gove = [f.unique.random_int(min=10, max=99) for _ in range(10)]
-pres = [f.unique.random_int(min=10, max=99) for _ in range(15)]
+depFe = [f.unique.random_int(min=1000, max=9999) for _ in range(70)] # depFe
+depEs = [f.unique.random_int(min=10000, max=99999) for _ in range(94)] # depEs
+sena = [f.unique.random_int(min=100, max=999) for _ in range(20)] # sena
+gove = [f.unique.random_int(min=10, max=99) for _ in range(10)] # gove
+pres = [f.unique.random_int(min=10, max=99) for _ in range(15)] # pres
 
 num_voto = []
 num_voto.extend(depFe)
@@ -68,5 +68,12 @@ with open('Eleicao/IO/eleitores.txt', 'x') as file:
 
 with open('Eleicao/IO/urna1.txt', 'x') as file:
     file.write('Urna 1: \n')
-    reorg = random.shuffle(df1['Cpf'])
-    file.write({'Cpf': reorg, 'depEs': np.array([random.choice(df)]), 'depEs':, 'sena':, 'gove':, 'pres':})
+    reorg = df1['Cpf'].tolist()
+    random.shuffle(reorg)
+    arq = {'Cpf': reorg, 'depFe': np.array([random.choice(df2.iloc[:70]['Num_voto'].values) for _ in range(500)]),
+                'depEs': np.array([random.choice(df2.iloc[70:164]['Num_voto'].values) for _ in range(500)]),
+                'sena': np.array([random.choice(df2.iloc[164:184]['Num_voto'].values) for _ in range(500)]),
+                'gove': np.array([random.choice(df2.iloc[184:194]['Num_voto'].values) for _ in range(500)]),
+                'pres': np.array([random.choice(df2.iloc[194:]['Num_voto'].values) for _ in range(500)])}
+    file.write(pd.DataFrame(arq).to_string(header=True, index=False))
+

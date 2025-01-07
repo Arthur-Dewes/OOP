@@ -1,4 +1,5 @@
 class Partido:
+    """Classe que representa um partido político"""
     def _init_(self, nome: str, numero: int, cnpj: str):
         self.nome = nome
         self.numero = numero

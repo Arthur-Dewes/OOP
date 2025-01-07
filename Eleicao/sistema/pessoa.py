@@ -5,7 +5,6 @@ class Pessoa:
         self.idade = idade
         self.__cpf = cpf
         
-
     def get_nome(self):
         return self.nome
     
@@ -29,5 +28,4 @@ class Pessoa:
     @cpf.deleter
     def cpf(self):
         del self.__cpf
-
 

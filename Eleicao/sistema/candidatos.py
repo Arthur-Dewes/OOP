@@ -1,13 +1,13 @@
-from Pessoa import Pessoa
+from Eleicao.sistema.pessoa import pessoa
 from abc import ABC, abstractmethod
 
-class Candidatos(ABC, Pessoa):
+class Candidatos(ABC, pessoa):
     @abstractmethod
     def verificar_numero_candidato(self):
         pass
 
     def _init_(self, nome: str, idade: int, cpf: str, numero_voto: int, proposta: str):
-        Pessoa._init_(self, nome, idade, cpf)
+        pessoa._init_(self, nome, idade, cpf)
         self.numero_voto = numero_voto  # talvez privado, ver onde pegar o voto
         self.proposta = proposta
 

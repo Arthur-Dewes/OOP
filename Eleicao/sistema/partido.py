@@ -5,7 +5,6 @@ class Partido:
         self.numero = numero
         self.__cnpj = cnpj
 
-
     def get_nome(self):
         return self.nome
     

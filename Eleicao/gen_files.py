@@ -19,12 +19,15 @@ f = Faker(['pt_BR'])
 #arq urnas: cpf, depFe, depEs, sena, gove, pres
 
 propostas_provider = DynamicProvider(provider_name='escolhe_propostas',
-    elements=["Educação", "Transporte Público", "Saúde", "Segurança Pública",
-    "Meio Ambiente e Sustentabilidade", "Habitação e Urbanismo", "Cultura e Lazer", "Economia e Emprego"])
+    elements=["Educação", "Transporte Público", "Saúde", "Segurança Pública", "Meio Ambiente e Sustentabilidade",
+            "Habitação e Urbanismo", "Cultura e Lazer", "Economia e Emprego", "Tecnologia e Inovação",
+            "Justiça e Direitos Humanos", "Infraestrutura e Mobilidade Urbana", "Desenvolvimento Rural e Agricultura",
+            "Turismo e Patrimônio Cultural", "Ciência e Pesquisa", "Energia e Recursos Naturais", "Inclusão Social e Diversidade"])
 
 f.add_provider(propostas_provider)
 
-pessoas = {'Nome': np.array([f.name() for _ in range(1000)]),
+nomes = np.array([f.name() for _ in range(1000)])
+pessoas = {'Nome': nomes,
         'Idade': np.array([f.random_int(min=18, max=70) for _ in range(1000)]),
         'Cpf': np.array([f.cpf() for _ in range(1000)])}
 
@@ -41,7 +44,7 @@ num_voto.extend(sena)
 num_voto.extend(gove)
 num_voto.extend(pres)
 
-candidatos = {'Nome': np.array([f.name() for _ in range(209)]),# os candidatos precisam ser nomes de pessoas (df1) e não nomes aleatórios
+candidatos = {'Nome': nomes[[f.unique.random_int(min=0, max=999) for _ in range(209)]],
                 'Num_voto': np.array(num_voto),
                 'Propostas': np.array([f.escolhe_propostas() for _ in range(209)])}
 
@@ -63,15 +66,17 @@ df1 = pd.DataFrame(pessoas)
 df2 = pd.DataFrame(candidatos) 
 df3 = pd.DataFrame(partidos)
 
-random_pos_eleitores = [f.unique.random_int(min=1, max=1000) for _ in range(13)]
+# acrescentando erros ao arquivo
+random_pos_eleitores = np.array([f.unique.random_int(min=0, max=999) for _ in range(13)])
 random_pos_urnas = [f.unique.random_int(min=0, max=499) for _ in range(5)]
 invalid_cpfs = ["123.456.789-00", "111.111.111-11", "000.000.000-00", "222.222.222-22", "333.444.555-66",
                 "999.888.777-00", "555.123.456-78", "444.444.444-00", "123.123.123-11", "678.901.234-56"]
 
-df1.iloc[random_pos_eleitores[:10], 2] = invalid_cpfs # cpfs inválidos
-df1.iloc[random_pos_eleitores[10], 1] = 17 # menor de idade
-df1.iloc[random_pos_eleitores[11], 0] = "" # nome vazio
-df1.iloc[random_pos_eleitores[12], 2] = "" # cpf vazio
+# - 3 ajusta o índice para o iloc
+df1.iloc[random_pos_eleitores[:10] - 3, 2] = invalid_cpfs # cpfs inválidos
+df1.iloc[random_pos_eleitores[10] - 3, 1] = 17 # menor de idade
+df1.iloc[random_pos_eleitores[11] - 3, 0] = "" # nome vazio
+df1.iloc[random_pos_eleitores[12] - 3, 2] = "" # cpf vazio
 
 # voto inválido para cada cargo
 novo_depFe = gen_invalid_vote(1000, 9999, depFe)
@@ -80,10 +85,6 @@ novo_sena = gen_invalid_vote(100, 999, sena)
 novo_gove = gen_invalid_vote(10, 99, gove)
 novo_pres = gen_invalid_vote(10, 99, pres)
 
-reorg = df1['Cpf'].tolist()
-random.shuffle(reorg)
-
-#arrumar os indices das mudanças dos erros
 with open('Eleicao/IO/eleitores.txt', 'x') as file:
     file.write('Pessoas: \n')
     file.write(df1.to_string(header=True, index=False))
@@ -91,6 +92,9 @@ with open('Eleicao/IO/eleitores.txt', 'x') as file:
     file.write(df2.to_string(header=True, index=False))
     file.write('\nPartidos: \n')
     file.write(df3.to_string(header=True, index=False))
+
+reorg = df1['Cpf'].tolist()
+random.shuffle(reorg)
 
 with open('Eleicao/IO/urna1.txt', 'x') as file:
     file.write('Urna 1: \n')
@@ -116,4 +120,5 @@ with open('Eleicao/IO/urna2.txt', 'x') as file:
     arq['gove'][random_pos_urnas[3]] = novo_gove
     arq['pres'][random_pos_urnas[4]] = novo_pres
     file.write(pd.DataFrame(arq).to_string(header=True, index=False))
+
     

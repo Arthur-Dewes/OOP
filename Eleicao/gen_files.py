@@ -28,14 +28,14 @@ f.add_provider(propostas_provider)
 
 nomes = np.array([f.name() for _ in range(1000)])
 pessoas = {'Nome': nomes,
-        'Idade': np.array([f.random_int(min=18, max=70) for _ in range(1000)]),
-        'Cpf': np.array([f.cpf() for _ in range(1000)])}
+        'Idade': [f.random_int(min=18, max=70) for _ in range(1000)],
+        'Cpf': [f.cpf() for _ in range(1000)]}
 
-depFe = [f.unique.random_int(min=1000, max=9999) for _ in range(70)] # depFe
-depEs = [f.unique.random_int(min=10000, max=99999) for _ in range(94)] # depEs
-sena = [f.unique.random_int(min=100, max=999) for _ in range(20)] # sena
-gove = [f.unique.random_int(min=10, max=99) for _ in range(10)] # gove
-pres = [f.unique.random_int(min=10, max=99) for _ in range(15)] # pres
+depFe = [f.unique.random_int(min=1000, max=9999) for _ in range(70)]
+depEs = [f.unique.random_int(min=10000, max=99999) for _ in range(94)]
+sena = [f.unique.random_int(min=100, max=999) for _ in range(20)]
+gove = [f.unique.random_int(min=10, max=99) for _ in range(10)]
+pres = [f.unique.random_int(min=10, max=99) for _ in range(15)]
 
 num_voto = []
 num_voto.extend(depFe)
@@ -45,10 +45,10 @@ num_voto.extend(gove)
 num_voto.extend(pres)
 
 candidatos = {'Nome': nomes[[f.unique.random_int(min=0, max=999) for _ in range(209)]],
-                'Num_voto': np.array(num_voto),
-                'Propostas': np.array([f.escolhe_propostas() for _ in range(209)])}
+                'Num_voto': num_voto,
+                'Propostas': [f.escolhe_propostas() for _ in range(209)]}
 
-partidos = {'Nome': np.array(["Avante", "Cidadania", "Democracia Cristã", "Movimento Democrático Brasileiro",
+partidos = {'Nome': ["Avante", "Cidadania", "Democracia Cristã", "Movimento Democrático Brasileiro",
             "Partido Novo", "Patriota", "Partido Comunista Brasileiro", "Partido Comunista do Brasil", 
             "Partido Democrático Trabalhista", "Partido Liberal", "Partido da Mulher Brasileira", 
             "Partido da Mobilização Nacional", "Podemos", "Progressistas", "Partido Pátria Livre", 
@@ -57,9 +57,9 @@ partidos = {'Nome': np.array(["Avante", "Cidadania", "Democracia Cristã", "Movi
             "Partido Socialismo e Liberdade", "Partido Socialista dos Trabalhadores Unificado",
             "Partido dos Trabalhadores", "Partido Trabalhista Brasileiro", "Partido Trabalhista Cristão",
             "Partido Verde", "Rede Sustentabilidade", "Republicanos", "Solidariedade", "Unidade Popular",
-            "União Brasil"]),
-            'Num_eleitoral': np.array([70, 23, 27, 15, 30, 51, 21, 65, 12, 22, 44, 33, 19, 11, 18, 22, 40, 20, 55, 45,
-                                17, 50, 16, 13, 14, 36, 43, 18, 10, 77, 80, 44]),
+            "União Brasil"],
+            'Num_eleitoral': [70, 23, 27, 15, 30, 51, 21, 65, 12, 22, 44, 33, 19, 11, 18, 22, 40, 20, 55, 45,
+                                17, 50, 16, 13, 14, 36, 43, 18, 10, 77, 80, 44],
             'Cnpj': [f.cnpj() for _ in range(32)]}
 
 df1 = pd.DataFrame(pessoas)
@@ -87,38 +87,36 @@ novo_pres = gen_invalid_vote(10, 99, pres)
 
 with open('Eleicao/IO/eleitores.txt', 'x') as file:
     file.write('Pessoas: \n')
-    file.write(df1.to_string(header=True, index=False))
-    file.write('\nCandidatos: \n')
-    file.write(df2.to_string(header=True, index=False))
-    file.write('\nPartidos: \n')
-    file.write(df3.to_string(header=True, index=False))
+    for i in range(1000):
+        file.write(f"{df1.iloc[i]['Nome']},{df1.iloc[i]['Idade']},{df1.iloc[i]['Cpf']}\n")
+    file.write('Candidatos: \n')
+    for i in range(209):
+        file.write(f"{df2.iloc[i]['Nome']},{df2.iloc[i]['Num_voto']},{df2.iloc[i]['Propostas']}\n")
+    file.write('Partidos: \n')
+    for i in range(32):
+        file.write(f"{df3.iloc[i]['Nome']},{df3.iloc[i]['Num_eleitoral']},{df3.iloc[i]['Cnpj']}\n")
 
 reorg = df1['Cpf'].tolist()
 random.shuffle(reorg)
 
 with open('Eleicao/IO/urna1.txt', 'x') as file:
     file.write('Urna 1: \n')
-    arq = {'Cpf': reorg[:500], 'depFe': np.array([random.choice(df2.iloc[:70]['Num_voto'].values) for _ in range(500)]),
-            'depEs': np.array([random.choice(df2.iloc[70:164]['Num_voto'].values) for _ in range(500)]),
-            'sena': np.array([random.choice(df2.iloc[164:184]['Num_voto'].values) for _ in range(500)]),
-            'gove': np.array([random.choice(df2.iloc[184:194]['Num_voto'].values) for _ in range(500)]),
-            'pres': np.array([random.choice(df2.iloc[194:]['Num_voto'].values) for _ in range(500)])}
-    
-    arq['depFe'][random_pos_urnas[0]] = novo_depFe
-    arq['depEs'][random_pos_urnas[1]] = novo_depEs
-    arq['sena'][random_pos_urnas[2]] = novo_sena
-    file.write(pd.DataFrame(arq).to_string(header=True, index=False))
+    for i in range(500):
+        if i == random_pos_urnas[0] - 2:
+            file.write(f"{reorg[i]},{novo_depFe},{random.choice(df2.iloc[70:164]['Num_voto'].values)},{random.choice(df2.iloc[164:184]['Num_voto'].values)},{random.choice(df2.iloc[184:194]['Num_voto'].values)},{random.choice(df2.iloc[194:]['Num_voto'].values)}\n")
+        elif i == random_pos_urnas[1] - 2:
+            file.write(f"{reorg[i]},{random.choice(df2.iloc[:70]['Num_voto'].values)},{novo_depEs},{random.choice(df2.iloc[164:184]['Num_voto'].values)},{random.choice(df2.iloc[184:194]['Num_voto'].values)},{random.choice(df2.iloc[194:]['Num_voto'].values)}\n")
+        elif i == random_pos_urnas[2] - 2:
+            file.write(f"{reorg[i]},{random.choice(df2.iloc[:70]['Num_voto'].values)},{random.choice(df2.iloc[70:164]['Num_voto'].values)},{novo_sena},{random.choice(df2.iloc[184:194]['Num_voto'].values)},{random.choice(df2.iloc[194:]['Num_voto'].values)}\n")
+        else:
+            file.write(f"{reorg[i]},{random.choice(df2.iloc[:70]['Num_voto'].values)},{random.choice(df2.iloc[70:164]['Num_voto'].values)},{random.choice(df2.iloc[164:184]['Num_voto'].values)},{random.choice(df2.iloc[184:194]['Num_voto'].values)},{random.choice(df2.iloc[194:]['Num_voto'].values)}\n")
 
 with open('Eleicao/IO/urna2.txt', 'x') as file:
-    file.write('Urna 1: \n')
-    arq = {'Cpf': reorg[500:], 'depFe': np.array([random.choice(df2.iloc[:70]['Num_voto'].values) for _ in range(500)]),
-            'depEs': np.array([random.choice(df2.iloc[70:164]['Num_voto'].values) for _ in range(500)]),
-            'sena': np.array([random.choice(df2.iloc[164:184]['Num_voto'].values) for _ in range(500)]),
-            'gove': np.array([random.choice(df2.iloc[184:194]['Num_voto'].values) for _ in range(500)]),
-            'pres': np.array([random.choice(df2.iloc[194:]['Num_voto'].values) for _ in range(500)])}
-    
-    arq['gove'][random_pos_urnas[3]] = novo_gove
-    arq['pres'][random_pos_urnas[4]] = novo_pres
-    file.write(pd.DataFrame(arq).to_string(header=True, index=False))
-
-    
+    file.write('Urna 2: \n')
+    for i in range(500):
+        if i == random_pos_urnas[3] - 2:
+            file.write(f"{reorg[i + 500]},{random.choice(df2.iloc[:70]['Num_voto'].values)},{random.choice(df2.iloc[70:164]['Num_voto'].values)},{random.choice(df2.iloc[164:184]['Num_voto'].values)},{novo_gove},{random.choice(df2.iloc[194:]['Num_voto'].values)}\n")
+        elif i == random_pos_urnas[4] - 2:
+            file.write(f"{reorg[i + 500]},{random.choice(df2.iloc[:70]['Num_voto'].values)},{random.choice(df2.iloc[70:164]['Num_voto'].values)},{random.choice(df2.iloc[164:184]['Num_voto'].values)},{random.choice(df2.iloc[184:194]['Num_voto'].values)},{novo_pres}\n")
+        else:
+            file.write(f"{reorg[i + 500]},{random.choice(df2.iloc[:70]['Num_voto'].values)},{random.choice(df2.iloc[70:164]['Num_voto'].values)},{random.choice(df2.iloc[164:184]['Num_voto'].values)},{random.choice(df2.iloc[184:194]['Num_voto'].values)},{random.choice(df2.iloc[194:]['Num_voto'].values)}\n")

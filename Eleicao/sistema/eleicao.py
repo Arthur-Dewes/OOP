@@ -1,11 +1,12 @@
 class Eleicao:
     """Classe responsável por ler o arquivo eleitores.txt"""
-    @classmethod
-    def diff(cls, value: int) -> tuple[int, int, int]:
-        cls.total_pessoas = value + 1
-        cls.total_candidatos = value + 1 + 209
-        cls.total_partidos = value + 1 + 209 + 32
-        return cls.total_pessoas, cls.total_candidatos, cls.total_partidos
+    
+    @staticmethod
+    def diff(value: int) -> tuple[int, int, int]:
+        total_pessoas = value + 1
+        total_candidatos = value + 1 + 209
+        total_partidos = value + 1 + 209 + 32
+        return total_pessoas, total_candidatos, total_partidos
     
     def __init__(self, qtd_pessoas):
         self.qtd_pessoas, self.qtd_candidatos, self.qtd_partidos = Eleicao.diff(qtd_pessoas)

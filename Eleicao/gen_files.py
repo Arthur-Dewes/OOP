@@ -48,16 +48,13 @@ candidatos = {'Nome': nomes[[f.unique.random_int(min=0, max=999) for _ in range(
                 'Num_voto': num_voto,
                 'Propostas': [f.escolhe_propostas() for _ in range(209)]}
 
-partidos = {'Nome': ["Avante", "Cidadania", "Democracia Cristã", "Movimento Democrático Brasileiro",
-            "Partido Novo", "Patriota", "Partido Comunista Brasileiro", "Partido Comunista do Brasil", 
-            "Partido Democrático Trabalhista", "Partido Liberal", "Partido da Mulher Brasileira", 
-            "Partido da Mobilização Nacional", "Podemos", "Progressistas", "Partido Pátria Livre", 
-            "Partido Republicano da Ordem Social", "Partido Socialista Brasileiro", "Partido Social Cristão",
-            "Partido Social Democrático", "Partido da Social Democracia Brasileira", "Partido Social Liberal",
-            "Partido Socialismo e Liberdade", "Partido Socialista dos Trabalhadores Unificado",
-            "Partido dos Trabalhadores", "Partido Trabalhista Brasileiro", "Partido Trabalhista Cristão",
-            "Partido Verde", "Rede Sustentabilidade", "Republicanos", "Solidariedade", "Unidade Popular",
-            "União Brasil"],
+partidos = {'Nome': ["Avante", "Cidadania", "Democracia Cristã", "Movimento Democrático Brasileiro", "Partido Novo", 
+            "Patriota", "Partido Comunista Brasileiro", "Partido Comunista do Brasil", "Partido Democrático Trabalhista", 
+            "Partido Liberal", "Partido da Mulher Brasileira", "Partido da Mobilização Nacional", "Podemos", "Progressistas",
+            "Partido Pátria Livre", "Partido Republicano da Ordem Social", "Partido Socialista Brasileiro", "Partido Social Cristão",
+            "Partido Social Democrático", "Partido da Social Democracia Brasileira", "Partido Social Liberal", "Partido Socialismo e Liberdade",
+            "Partido Socialista dos Trabalhadores Unificado", "Partido dos Trabalhadores", "Partido Trabalhista Brasileiro", "Partido Trabalhista Cristão",
+            "Partido Verde", "Rede Sustentabilidade", "Republicanos", "Solidariedade", "Unidade Popular", "União Brasil"],
             'Num_eleitoral': [70, 23, 27, 15, 30, 51, 21, 65, 12, 22, 44, 33, 19, 11, 18, 22, 40, 20, 55, 45,
                                 17, 50, 16, 13, 14, 36, 43, 18, 10, 77, 80, 44],
             'Cnpj': [f.cnpj() for _ in range(32)]}

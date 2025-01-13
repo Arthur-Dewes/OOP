@@ -1,5 +1,6 @@
 class Pessoa:
     """Classe que armeza informações de uma pessoa"""
+    
     def _init_(self, nome: str, idade: int, cpf: str):
         self.nome = nome
         self.idade = idade

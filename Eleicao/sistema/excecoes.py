@@ -31,12 +31,11 @@ class CpfError(Exception):
     def __init__(self, message, cpf):
         super().__init__(message)
         self.cpf = cpf
+        self.log_error(message, cpf)
 
-        self.log_error(message)
-
-    def log_error(self, message):
+    def log_error(self, message, cpf):
         with open("Eleicao/IO/log.txt", "a") as log_file:
-            log_file.write(f"CpfError: {message}\n")
+            log_file.write(f"CpfError: {message}, {cpf}\n")
 
 
 def valid_cpf(cpf: str) -> bool:

@@ -1,4 +1,4 @@
-from Eleicao.sistema.pessoa import pessoa
+from pessoa import pessoa
 from abc import ABC, abstractmethod
 
 class Candidatos(ABC, pessoa):

@@ -2,17 +2,12 @@ class Votacao:
     total_votos = 0
 
     @classmethod
-    def incrementar_total(cls):  # Total de pessoas que votaram
+    def incrementar_total(cls):
         cls.total_votos += 1
-
-    def _init_(self, voto):
-        self._voto = voto  # Voto por pessoa (talvez usar split-list?)
-        # Fazer um dicionário com candidatos como chave e votos como valor
+    
+    def __init__(self, voto: list):
+        self.voto = voto[1:]
         Votacao.incrementar_total()
 
-    def set_voto(self, voto):
-        self._voto = voto
-
-    voto = property(set_voto)
-    
-    
+    def __str__(self):
+        return f'{self.voto}'

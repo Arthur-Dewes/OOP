@@ -148,3 +148,5 @@ class CnpjError(Exception):
     def log_error(self, cnpj: str):
         with open("Eleicao/IO/log.txt", "a") as log_file:
             log_file.write(f"CnpjError: invalid cnpj -> {cnpj}\n")
+
+__all__ = ['FileError', 'NameError', 'AgeError', 'CpfError', 'NumberError', 'VoteError', 'ProposalError', 'CnpjError']

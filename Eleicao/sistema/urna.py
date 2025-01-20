@@ -1,4 +1,4 @@
-from votacao import Votacao
+from .votacao import Votacao
 
 class Urna:
 

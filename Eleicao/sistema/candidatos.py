@@ -1,7 +1,7 @@
-from pessoa import pessoa
+from .pessoa import Pessoa
 from abc import ABC, abstractmethod
 
-class Candidatos(ABC, pessoa):
+class Candidatos(ABC, Pessoa):
     """Classe que representa um candidato"""
     
     @abstractmethod
@@ -9,7 +9,7 @@ class Candidatos(ABC, pessoa):
         pass
 
     def _init_(self, nome: str, idade: int, cpf: str, numero_voto: int, proposta: str):
-        pessoa._init_(self, nome, idade, cpf)
+        Pessoa._init_(self, nome, idade, cpf)
         self.numero_voto = numero_voto
         self.proposta = proposta
 
@@ -49,3 +49,4 @@ class Presidente(Candidatos):
         else:
             return False # voto inválido
 
+__all__ = ['Candidatos', 'DepFederal', 'DepEstadual', 'Senador', 'Governador', 'Presidente']

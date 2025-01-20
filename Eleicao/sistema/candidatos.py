@@ -17,35 +17,35 @@ class Candidatos(ABC, pessoa):
 class DepFederal(Candidatos):
     def verificar_numero_candidato(self):
         if isinstance(self.numero_voto, int) and len(str(self.numero_voto)) == 4:
-            return "válido"
+            return True # voto válido
         else:
-            return "inválido"
+            return False # voto inválido
 
 class DepEstadual(Candidatos):
     def verificar_numero_candidato(self):
         if isinstance(self.numero_voto, int) and len(str(self.numero_voto)) == 5:
-            return "válido"
+            return True # voto válido
         else:
-            return "inválido"
+            return False # voto inválido
 
 class Senador(Candidatos):
     def verificar_numero_candidato(self):
         if isinstance(self.numero_voto, int) and len(str(self.numero_voto)) == 3:
-            return "válido"
+            return True # voto válido
         else:
-            return "inválido"
+            return False # voto inválido
 
 class Governador(Candidatos):
     def verificar_numero_candidato(self):
         if isinstance(self.numero_voto, int) and len(str(self.numero_voto)) == 2:
-            return "válido"
+            return True # voto válido
         else:
-            return "inválido"
+            return False # voto inválido
 
 class Presidente(Candidatos):
     def verificar_numero_candidato(self):
         if isinstance(self.numero_voto, int) and len(str(self.numero_voto)) == 2:
-            return "válido"
+            return True # voto válido
         else:
-            return "inválido"
+            return False # voto inválido
 

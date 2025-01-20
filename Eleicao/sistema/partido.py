@@ -8,13 +8,13 @@ class Partido:
     def get_nome(self):
         return self.nome
     
-    def set_nome(self, nome):
+    def set_nome(self, nome: str):
         self.nome = nome
 
     def get_numero(self):
         return self.numero
     
-    def set_numero(self, numero):
+    def set_numero(self, numero: int):
         self.numero = numero
 
     @property
@@ -22,7 +22,7 @@ class Partido:
         return self.__cnpj
     
     @cnpj.setter
-    def cnpj(self, cnpj):
+    def cnpj(self, cnpj: str):
         self.__cnpj = cnpj
     
     @cnpj.deleter

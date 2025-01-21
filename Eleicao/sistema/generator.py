@@ -102,7 +102,6 @@ def gen_files(output_dir: str, num_pessoas: int) -> None:
     random.shuffle(reorg)
 
     count = 0
-    # Gerando arquivos de urnas
     for i in range(num_urnas if num_pessoas % 500 == 0 else num_urnas + 1):
         start_idx = i * 500
         end_idx = min((i + 1) * 500, num_pessoas)

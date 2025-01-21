@@ -9,13 +9,13 @@ class Pessoa:
     def get_nome(self):
         return self.nome
     
-    def set_nome(self, nome):
+    def set_nome(self, nome: str):
         self.nome = nome
 
     def get_idade(self):
         return self.idade
     
-    def set_idade(self, idade):
+    def set_idade(self, idade: int):
         self.idade = idade
 
     @property
@@ -23,10 +23,9 @@ class Pessoa:
         return self.__cpf
     
     @cpf.setter
-    def cpf(self, cpf):
+    def cpf(self, cpf: str):
         self.__cpf = cpf
 
     @cpf.deleter
     def cpf(self):
         del self.__cpf
-

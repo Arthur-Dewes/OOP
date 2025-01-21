@@ -1,3 +1,8 @@
+class MissingArgumentError(Exception):
+    def __init__(self, message: str):
+        super().__init__(message)
+
+
 class FileError(Exception):
     def __init__(self, filepath: str):
         self.filepath = filepath
@@ -149,4 +154,4 @@ class CnpjError(Exception):
         with open("Eleicao/IO/log.txt", "a") as log_file:
             log_file.write(f"CnpjError: invalid cnpj -> {cnpj}\n")
 
-__all__ = ['FileError', 'NameError', 'AgeError', 'CpfError', 'NumberError', 'VoteError', 'ProposalError', 'CnpjError']
+__all__ = ['MissingArgumentError','FileError', 'NameError', 'AgeError', 'CpfError', 'NumberError', 'VoteError', 'ProposalError', 'CnpjError']

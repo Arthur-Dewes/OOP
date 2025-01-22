@@ -10,4 +10,4 @@ from .generator import gen_files
 
 __all__ = ['Candidatos', 'DepFederal', 'DepEstadual', 'Senador', 'Governador', 'Presidente',
             'Eleicao', 'Partido', 'Pessoa', 'Urna', 'Votacao', 'gen_files',
-             'MissingArgumentError', 'FileError', 'NameError', 'AgeError', 'CpfError', 'NumberError', 'VoteError', 'ProposalError', 'CnpjError']
+             'MissingArgumentError', 'FileError', 'NotPythonNameError', 'AgeError', 'CpfError', 'VoteError', 'ProposalError', 'CnpjError']

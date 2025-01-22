@@ -14,7 +14,7 @@ class FileError(Exception):
             log_file.write(f"FileError: Arquivo não encontrado ou não acessível -> {filepath}\n")
 
 
-class NameError(Exception):
+class NotPythonNameError(Exception):
     def __init__(self, name: str):
         self.name = name
         super().__init__(f"Nome inválido: {name}")
@@ -74,17 +74,6 @@ class CpfError(Exception):
     def log_error(self, cpf: str):
         with open("Eleicao/IO/log.txt", "a") as log_file:
             log_file.write(f"CpfError: invalid cpf -> {cpf}\n")
-
-
-class NumberError(Exception):
-    def __init__(self, number: int):
-        self.number = number
-        super().__init__(f"Número inválido: {number}")
-        self.log_error(number)
-
-    def log_error(self, number: int):
-        with open("Eleicao/IO/log.txt", "a") as log_file:
-            log_file.write(f"NumberError: Número inválido -> {number}\n")
 
 class VoteError(Exception):
     def __init__(self, vote: int):
@@ -154,4 +143,4 @@ class CnpjError(Exception):
         with open("Eleicao/IO/log.txt", "a") as log_file:
             log_file.write(f"CnpjError: invalid cnpj -> {cnpj}\n")
 
-__all__ = ['MissingArgumentError','FileError', 'NameError', 'AgeError', 'CpfError', 'NumberError', 'VoteError', 'ProposalError', 'CnpjError']
+__all__ = ['MissingArgumentError','FileError', 'NotPythonNameError', 'AgeError', 'CpfError', 'VoteError', 'ProposalError', 'CnpjError']

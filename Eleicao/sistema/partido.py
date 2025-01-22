@@ -1,31 +1,25 @@
+from excecoes import NotPythonNameError, CnpjError
+
 class Partido:
     """Classe que representa um partido político"""
-    def __init__(self, nome: str, numero: int, cnpj: str):
-        self.nome = nome
-        self.numero = numero
-        self.__cnpj = cnpj
+    def __init__(self, name: str, number: int, cnpj: str):
+        if not name.isalpha() and len(name) >= 1:
+            raise NotPythonNameError(name)
+        if not (0 < number < 100):
+            raise ValueError("Número do partido inválido")
+        if not CnpjError(cnpj).cnpj[1]:
+            raise CnpjError(cnpj)
+        
+        # se tiver raise, o objeto não é criado
+        self.name = name
+        self.number = number
+        self.cnpj = cnpj
 
     def get_nome(self):
-        return self.nome
-    
-    def set_nome(self, nome: str):
-        self.nome = nome
+        return self._name
 
     def get_numero(self):
-        return self.numero
-    
-    def set_numero(self, numero: int):
-        self.numero = numero
+        return self._number
 
-    @property
-    def cnpj(self):
-        return self.__cnpj
-    
-    @cnpj.setter
-    def cnpj(self, cnpj: str):
-        self.__cnpj = cnpj
-    
-    @cnpj.deleter
-    def cnpj(self):
-        del self.__cnpj
-    
+    def get_cnpj(self):
+        return self._cnpj

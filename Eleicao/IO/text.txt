@@ -1,0 +1,2 @@
+Esse diretório é reponsável por armazenar os arquivos de entrada e saída.
+This directory is responsible for storing input and output files.

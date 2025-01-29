@@ -1,6 +1,5 @@
 from .pessoa import Pessoa
 from abc import ABC, abstractmethod
-from excecoes import ProposalError
 
 class Candidatos(ABC, Pessoa):
     """Classe que representa um candidato"""
@@ -9,13 +8,7 @@ class Candidatos(ABC, Pessoa):
     def verificar_numero_candidato(self):
         pass
 
-    def _init_(self, nome: str, idade: int, cpf: str, numero_voto: int, proposta: str):
-        if not isinstance(numero_voto, int) or numero_voto < 10:
-            raise ValueError("Número de voto inválido")
-        if not isinstance(proposta, str) :
-            raise ProposalError(proposta)
-        
-        # se tiver raise, o objeto não é criado
+    def __init__(self, nome: str, idade: int, cpf: str, numero_voto: int, proposta: str):
         Pessoa._init_(self, nome, idade, cpf)
         self.numero_voto = numero_voto
         self.proposta = proposta

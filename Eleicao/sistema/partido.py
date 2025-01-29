@@ -1,4 +1,4 @@
-from excecoes import NotPythonNameError, CnpjError
+from .excecoes import NotPythonNameError, CnpjError
 
 class Partido:
     """Classe que representa um partido político"""

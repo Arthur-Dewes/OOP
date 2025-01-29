@@ -6,12 +6,12 @@ class MissingArgumentError(Exception):
 class FileError(Exception):
     def __init__(self, filepath: str):
         self.filepath = filepath
-        super().__init__(f"Arquivo não encontrado ou não acessível: {filepath}")
+        super().__init__(f"Arquivo não encontrado, não acessível ou com formatação incorreta: {filepath}")
         self.log_error(filepath)
 
     def log_error(self, filepath: str):
         with open("Eleicao/IO/log.txt", "a") as log_file:
-            log_file.write(f"FileError: Arquivo não encontrado ou não acessível -> {filepath}\n")
+            log_file.write(f"FileError: Arquivo não encontrado, não acessível ou com formatação incorreta -> {filepath}\n")
 
 
 class NotPythonNameError(Exception):
@@ -39,28 +39,28 @@ class CpfError(Exception):
     @staticmethod
     def valid_cpf(cpf: str) -> bool:
         """Verifica se determinado cpf é valido ou não"""
-        cpf = ''.join(filter(str.isdigit, cpf))
+        thiscpf = ''.join(filter(str.isdigit, cpf))
 
-        if len(cpf) != 11 or cpf == cpf[0] * 11:
+        if len(thiscpf) != 11 or thiscpf == thiscpf[0] * 11:
             return False 
         
         digit1, digit2 = 0, 0
 
         weight = 1
         for i in range(0, 9):
-            digit1 += int(cpf[i]) * weight
+            digit1 += int(thiscpf[i]) * weight
             weight += 1
 
         digit1 = digit1 % 11 if digit1 % 11 < 10 else 0
 
         weight = 0
         for i in range(0, 10):
-            digit2 += int(cpf[i]) * weight
+            digit2 += int(thiscpf[i]) * weight
             weight += 1
 
         digit2 = digit2 % 11 if digit2 % 11 < 10 else 0
 
-        if cpf[9:] == str(digit1) + str(digit2):
+        if thiscpf[9:] == str(digit1) + str(digit2):
             return True
         else:
             return False
@@ -73,7 +73,17 @@ class CpfError(Exception):
 
     def log_error(self, cpf: str):
         with open("Eleicao/IO/log.txt", "a") as log_file:
-            log_file.write(f"CpfError: invalid cpf -> {cpf}\n")
+            log_file.write(f"CpfError: cpf inválido -> {cpf}\n")
+
+class NotPythonValueError(Exception):
+    def __init__(self, value: int | str):
+        self.value = value
+        super().__init__(f"Valor inválido: {value}")
+        self.log_error(value)
+
+    def log_error(self, value: int | str):
+        with open("Eleicao/IO/log.txt", "a") as log_file:
+            log_file.write(f"ValueError: Valor inválido -> {value}\n")
 
 class VoteError(Exception):
     def __init__(self, vote: int):
@@ -143,4 +153,4 @@ class CnpjError(Exception):
         with open("Eleicao/IO/log.txt", "a") as log_file:
             log_file.write(f"CnpjError: invalid cnpj -> {cnpj}\n")
 
-__all__ = ['MissingArgumentError','FileError', 'NotPythonNameError', 'AgeError', 'CpfError', 'VoteError', 'ProposalError', 'CnpjError']
+__all__ = ['MissingArgumentError','FileError', 'NotPythonNameError', 'AgeError', 'CpfError', 'NotPythonValueError', 'VoteError', 'ProposalError', 'CnpjError']

@@ -123,3 +123,16 @@ def gen_files(output_dir: str, num_pessoas: int) -> None:
                     file.write(f"{reorg[count]},{random.choice(df2.iloc[:70]['Num_voto'].values)},{random.choice(df2.iloc[70:164]['Num_voto'].values)},{random.choice(df2.iloc[164:184]['Num_voto'].values)},{random.choice(df2.iloc[184:194]['Num_voto'].values)},{random.choice(df2.iloc[194:]['Num_voto'].values)}\n")
                 count += 1
     return
+
+def int_input():
+    while True:
+        tupni = input("Digite a quantidade de eleitores: ")
+        if tupni.isdigit():
+            return int(tupni)
+        else:
+            print("Digite um valor válido")
+            continue
+
+if __name__ == '__main__':
+    total = int_input()
+    gen_files('Eleicao/IO', total) # Gera os arquivos de entrada no diretorio escolhido

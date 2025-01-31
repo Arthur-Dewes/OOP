@@ -31,7 +31,7 @@ def main():
                 raise NotPythonNameError(pessoa[0])
             if not (18 <= int(pessoa[1]) <= 120):
                 raise AgeError(pessoa[1])
-            if type(pessoa[2]) != str or (len(pessoa[2]) != 14 and len(pessoa[2]) != 11):
+            if type(pessoa[2]) != str or (len(pessoa[2]) != 14 and pessoa[2].isdigit()) or (len(pessoa[2]) != 11 and not pessoa[2].isdigit()):
                 raise CpfError(pessoa[2])
 
             classe_pessoas.append(Pessoa(pessoa[0], int(pessoa[1]), pessoa[2]))
@@ -44,9 +44,19 @@ def main():
             with open("Eleicao/IO/log.txt", "a") as log_file:
                 log_file.write(f"Erro inesperado -> classe_pessoa: {e}\n")
 
+    def get_cargo(filepath: str, qtd: int) -> tuple:
+        """Retorna uma tupla com as pessoas por cargo no padrao: depFe, depEs, sena, gove, pres"""
+        with open(filepath, "r") as file:
+            linhas = file.readlines()[qtd + 1:qtd + 2 + 209]
+            linhas = ([info.strip().split(',')[0] for info in linhas[1:70]], [info.strip().split(',')[0] for info in linhas[70:164]],
+                    [info.strip().split(',')[0] for info in linhas[164:184]], [info.strip().split(',')[0] for info in linhas[184:194]], 
+                    [info.strip().split(',')[0] for info in linhas[194:]])
+            return linhas
+
     aux_dict = {pessoa.name: pessoa for pessoa in classe_pessoas}
     classe_candidatos = []
-
+    pessoa_por_cargo = get_cargo(arg_eleitores, qtd)
+    
     for candidato in candidatos:
         try:
             if int(candidato[1]) <= 10 or int(candidato[1]) >= 99999: # colocar um erro de num_voto == WASD valores para erropra dar erro ao converter
@@ -54,8 +64,16 @@ def main():
             if not isinstance(candidato[2], str) or len(candidato[2]) == 0: # colocar erro de proposta
                 raise ProposalError(candidato[2])
             
-            if candidato[0] in aux_dict.keys(): # erro no abc de candidatos
-                classe_candidatos.append(Candidatos(candidato[0], aux_dict[candidato[0]].idade, aux_dict[candidato[0]].cpf,  candidato[1], candidato[2]))
+            if candidato[0] in aux_dict.keys() and candidato[0] in pessoa_por_cargo[0]: # erro no abc de candidatos
+                classe_candidatos.append(DepFederal(candidato[0], int(aux_dict[candidato[0]].idade), aux_dict[candidato[0]].cpf,  int(candidato[1]), candidato[2]))
+            elif candidato[0] in aux_dict.keys() and candidato[0] in pessoa_por_cargo[1]:
+                classe_candidatos.append(DepEstadual(candidato[0], int(aux_dict[candidato[0]].idade), aux_dict[candidato[0]].cpf,  int(candidato[1]), candidato[2]))
+            elif candidato[0] in aux_dict.keys() and candidato[0] in pessoa_por_cargo[2]:
+                classe_candidatos.append(Senador(candidato[0], int(aux_dict[candidato[0]].idade), aux_dict[candidato[0]].cpf,  int(candidato[1]), candidato[2]))
+            elif candidato[0] in aux_dict.keys() and candidato[0] in pessoa_por_cargo[3]:
+                classe_candidatos.append(Governador(candidato[0], int(aux_dict[candidato[0]].idade), aux_dict[candidato[0]].cpf,  int(candidato[1]), candidato[2]))
+            elif candidato[0] in aux_dict.keys() and candidato[0] in pessoa_por_cargo[4]:
+                classe_candidatos.append(Presidente(candidato[0], int(aux_dict[candidato[0]].idade), aux_dict[candidato[0]].cpf,  int(candidato[1]), candidato[2]))
         except ValueError as e:
             with open("Eleicao/IO/log.txt", "a") as log_file:
                 log_file.write(f"Erro ao converter votos: {e}\n")
@@ -64,8 +82,6 @@ def main():
         except Exception as e:
             with open("Eleicao/IO/log.txt", "a") as log_file:
                 log_file.write(f"Erro inesperado -> classe_candidatos: {e}\n")
-
-    print(classe_candidatos)
 
     #fazer classe_partido
 
